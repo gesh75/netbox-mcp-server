@@ -90,3 +90,6 @@ logs/
 .worktrees/
 
 .plans/*
+
+# uv lock cache artifacts
+uv-*.lock
