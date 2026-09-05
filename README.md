@@ -19,9 +19,10 @@ For chat, use cases, and general MCP discussion, join the NetBox community at [n
 
 | Tool | Description |
 |------|-------------|
-| get_objects | Retrieves NetBox core objects based on their type and filters |
-| get_object_by_id | Gets detailed information about a specific NetBox object by its ID |
-| get_changelogs | Retrieves change history records (audit trail) based on filters |
+| netbox_get_objects | Retrieves NetBox core objects based on their type and filters |
+| netbox_get_object_by_id | Gets detailed information about a specific NetBox object by its ID |
+| netbox_get_changelogs | Retrieves change history records (audit trail) based on filters |
+| netbox_search_objects | Global search across common (or specified) object types |
 
 > Note: Core NetBox object types are always available. Plugin object types can be auto-discovered. See [Plugin Object Type Discovery](#plugin-object-type-discovery). Advanced features (GraphQL, dynamic model discovery, etc.) are deliberately out of scope. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full scope statement and rationale.
 
@@ -138,11 +139,11 @@ Both `netbox_get_objects()` and `netbox_get_object_by_id()` support an optional 
 
 ```python
 # Without fields: ~5000 tokens for 50 devices
-devices = netbox_get_objects('devices', {'site': 'datacenter-1'})
+devices = netbox_get_objects('dcim.device', {'site': 'datacenter-1'})
 
 # With fields: ~500 tokens (90% reduction)
 devices = netbox_get_objects(
-    'devices',
+    'dcim.device',
     {'site': 'datacenter-1'},
     fields=['id', 'name', 'status', 'site']
 )

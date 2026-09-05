@@ -39,6 +39,9 @@ WORKDIR /app
 USER appuser
 
 ENV PATH="/app/.venv/bin:$PATH"
+# stdio is the process default; containers need HTTP on all interfaces so -p works.
+ENV TRANSPORT=http
+ENV HOST=0.0.0.0
 
 EXPOSE 8000
 

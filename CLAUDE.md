@@ -108,7 +108,7 @@ def netbox_get_objects(object_type: str, filters: dict) -> list[dict]:
     """Get objects from NetBox based on their type and filters.
 
     Args:
-        object_type: String representing the NetBox object type (e.g. "devices")
+        object_type: String representing the NetBox object type (e.g. "dcim.device")
         filters: Dictionary of filters to apply to the API call
 
     Returns:
@@ -180,12 +180,15 @@ See `NETBOX_OBJECT_TYPES` in `server.py` for complete list.
 
 ## Testing Philosophy
 
-Currently no automated test suite. When adding tests:
+Unit tests live in `tests/` and run in CI (`uv run pytest -v`). They mock
+the NetBox HTTP client. There is no live-NetBox job today.
 
-- Test tool behavior with real NetBox instance (Docker-based test environment)
-- Mock external NetBox API calls only when necessary
+When adding tests:
+
+- Prefer unit tests that mock `netbox` unless a live instance is required
 - Validate error handling (invalid object types, missing credentials, API errors)
 - Test pagination handling for large result sets
+- Object types are dotted (`dcim.device`), not short names (`devices`)
 
 ## Do Not
 
@@ -331,13 +334,13 @@ These examples show how LLMs interact with MCP tools (conceptual format):
 ```python
 # Get all devices in a site
 mcp_tool("netbox_get_objects", {
-    "object_type": "devices",
+    "object_type": "dcim.device",
     "filters": {"site": "equinix-dc14"}
 })
 
 # Get specific device by ID
 mcp_tool("netbox_get_object_by_id", {
-    "object_type": "devices",
+    "object_type": "dcim.device",
     "object_id": 123
 })
 
